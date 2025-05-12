@@ -238,8 +238,8 @@
     (function () {
       // EmailJS user config - must replace with your own
       const EMAILJS_USER_ID = 'arthurdf08@gmail.com';
-      const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
-      const EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+      const EMAILJS_SERVICE_ID = 'arthurdf08@gmail.com';
+      const EMAILJS_TEMPLATE_ID = 'arthurdf08@gmail.com';
 
       emailjs.init(EMAILJS_USER_ID);
 
@@ -261,8 +261,8 @@
 
       // Validate phone with pattern
       function validatePhone(phone) {
-     //   const re = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
-      //  return re.test(phone);
+        const re = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
+        return re.test(phone);
       }
 
       // Read bookings from localStorage or create empty array
