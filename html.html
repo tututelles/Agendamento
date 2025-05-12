@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Agendamento - Cabeleireira Feminina</title>
+  <style>
+    /* Minimalistic Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      transition-property: background-color, border-color, box-shadow, color;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-in-out;
+    }
+    body {
+      background: #fcfcfc;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      user-select: none;
+    }
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 350px;
+      max-height: 600px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 20px 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 1.9rem;
+      color: #333;
+      user-select: text;
+    }
+    header p {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 6px;
+      user-select: text;
+    }
+    form {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    label {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #444;
+      user-select: text;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    input[type="date"],
+    input[type="time"] {
+      border: 1.8px solid #bbb;
+      border-radius: 6px;
+      padding: 9px 11px;
+      font-size: 1rem;
+      color: #222;
+      background: #fafafa;
+      outline-offset: 2px;
+      transition-property: background-color, border-color, box-shadow;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-in-out;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus {
+      border-color: #6c63ff;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(108, 99, 255, 0.3);
+      outline: none;
+    }
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2213%22%20height%3D%229%22%20viewBox%3D%220%200%2013%209%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M1%200l5.898%205.898L12.795%200l-.905.905-5.093%205.092L1.905.905z%22%20fill%3D%22%23666%22/%3E%3C/svg%3E") no-repeat right 12px center/12px 9px;
+      padding-right: 30px;
+      cursor: pointer;
+    }
+    /* Date and Time side by side container */
+    .datetime-container {
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+    }
+    .datetime-container > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    button {
+      margin-top: 12px;
+      margin-bottom: 8px;
+      background: #6c63ff;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      padding: 13px;
+      cursor: pointer;
+      /* Removed box-shadow per request */
+      transition: background-color 0.35s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    button:hover,
+    button:focus {
+      background: #5753d6;
+      box-shadow: 0 0 12px rgba(87, 83, 214, 0.8);
+      outline: none;
+    }
+    .confirmation {
+      margin-top: 18px;
+      font-size: 1rem;
+      color: #275a27;
+      font-weight: 600;
+      text-align: center;
+      padding: 11px 12px;
+      border-radius: 8px;
+      background-color: #d4f3d4;
+      display: none;
+      opacity: 0;
+      user-select: text;
+      transition: opacity 0.4s ease;
+    }
+    .confirmation.show {
+      display: block;
+      opacity: 1;
+    }
+    .error {
+      color: #a12727;
+      background-color: #f6d6d6;
+      padding: 11px 12px;
+      border-radius: 8px;
+      margin-top: 16px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      opacity: 0;
+      user-select: text;
+      transition: opacity 0.4s ease;
+    }
+    .error.show {
+      display: block;
+      opacity: 1;
+    }
+    @media screen and (max-width: 360px) {
+      .container {
+        max-width: 100%;
+      }
+      header h1 {
+        font-size: 1.6rem;
+      }
+      button {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+      .datetime-container {
+        flex-direction: column;
+      }
+      .datetime-container > div {
+        width: 100%;
+      }
+    }
+  </style>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <h1>Beleza &amp; Estilo</h1>
+      <p>Agende seu atendimento personalizado</p>
+    </header>
+    <form id="booking-form" aria-label="Formulário de agendamento de cabelereiro feminino" novalidate>
+      <label for="name">Nome Completo</label>
+      <input type="text" id="name" name="name" placeholder="Seu nome" required autocomplete="name" aria-required="true" />
+
+      <label for="phone">Telefone</label>
+      <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" pattern="\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}" required autocomplete="tel" aria-required="true" />
+
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="email@exemplo.com" required autocomplete="email" aria-required="true" />
+
+      <label for="service">Serviço</label>
+      <select id="service" name="service" required aria-required="true">
+        <option value="" disabled selected>Selecione um serviço</option>
+        <option value="Corte">Corte</option>
+        <option value="Coloração">Coloração</option>
+        <option value="Escova">Escova</option>
+        <option value="Penteado">Penteado</option>
+        <option value="Tratamento Capilar">Tratamento Capilar</option>
+      </select>
+
+      <div class="datetime-container" aria-label="Data e hora do agendamento">
+        <div>
+          <label for="date">Data</label>
+          <input type="date" id="date" name="date" required aria-required="true" min="" />
+        </div>
+        <div>
+          <label for="time">Hora</label>
+          <input type="time" id="time" name="time" required aria-required="true" min="09:00" max="19:00" step="900" />
+        </div>
+      </div>
+
+      <button type="submit" aria-label="Enviar formulário de agendamento">Agendar</button>
+    </form>
+    <div id="confirmation" class="confirmation" role="alert" aria-live="assertive" tabindex="-1"></div>
+    <div id="error-message" class="error" role="alert" aria-live="assertive" tabindex="-1"></div>
+  </div>
+  <script>
+    (function () {
+      // EmailJS user config - must replace with your own
+      const EMAILJS_USER_ID = 'YOUR_EMAILJS_USER_ID';
+      const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
+      const EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+
+      emailjs.init(EMAILJS_USER_ID);
+
+      const form = document.getElementById('booking-form');
+      const confirmation = document.getElementById('confirmation');
+      const errorMessage = document.getElementById('error-message');
+      const dateInput = document.getElementById('date');
+
+      // Set min date to today for the date picker
+      function setMinDate() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const minDate = `${yyyy}-${mm}-${dd}`;
+        dateInput.min = minDate;
+      }
+      setMinDate();
+
+      // Validate phone with pattern
+      function validatePhone(phone) {
+        const re = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
+        return re.test(phone);
+      }
+
+      // Read bookings from localStorage or create empty array
+      function getBookings() {
+        const data = localStorage.getItem('hairdresserBookings');
+        if (!data) return [];
+        try {
+          return JSON.parse(data);
+        } catch {
+          return [];
+        }
+      }
+      // Save bookings to localStorage
+      function saveBookings(bookings) {
+        localStorage.setItem('hairdresserBookings', JSON.stringify(bookings));
+      }
+      // Check for duplicate booking (same date and time)
+      function isDuplicateBooking(date, time) {
+        const bookings = getBookings();
+        return bookings.some(b => b.date === date && b.time === time);
+      }
+      // Add new booking
+      function addBooking(booking) {
+        const bookings = getBookings();
+        bookings.push(booking);
+        saveBookings(bookings);
+      }
+      // Clear messages
+      function clearMessages() {
+        confirmation.classList.remove('show');
+        errorMessage.classList.remove('show');
+        confirmation.textContent = '';
+        errorMessage.textContent = '';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearMessages();
+
+        // Basic validations
+        const name = form.name.value.trim();
+        const phone = form.phone.value.trim();
+        const email = form.email.value.trim();
+        const service = form.service.value;
+        const date = form.date.value;
+        const time = form.time.value;
+
+        if (!name || !phone || !email || !service || !date || !time) {
+          errorMessage.textContent = 'Por favor, preencha todos os campos.';
+          errorMessage.classList.add('show');
+          errorMessage.focus();
+          return;
+        }
+        if (!validatePhone(phone)) {
+          errorMessage.textContent = 'Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.';
+          errorMessage.classList.add('show');
+          form.phone.focus();
+          return;
+        }
+        // Email validity is checked by input type=email default validation
+
+        // Check if date is not in the past
+        const selectedDateTime = new Date(date + 'T' + time);
+        const now = new Date();
+        if (selectedDateTime < now) {
+          errorMessage.textContent = 'Por favor, escolha uma data e horário futuros.';
+          errorMessage.classList.add('show');
+          form.date.focus();
+          return;
+        }
+
+        // Check for duplicate booking
+        if (isDuplicateBooking(date, time)) {
+          errorMessage.textContent = `Já existe um agendamento para ${date.replace(/-/g, '/')} às ${time}. Por favor, escolha outro horário.`;
+          errorMessage.classList.add('show');
+          errorMessage.focus();
+          return;
+        }
+
+        // Prepare email params
+        const emailParams = {
+          to_name: name,
+          to_email: email,
+          phone: phone,
+          service: service,
+          date: date.replace(/-/g, '/'),
+          time: time
+        };
+
+        // Send email via EmailJS
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams)
+          .then(() => {
+            // Store booking
+            addBooking({ name, phone, email, service, date, time });
+
+            confirmation.innerHTML = `
+              Olá, <strong>${name}</strong>!<br />
+              Seu agendamento para "<strong>${service}</strong>" está confirmado para<br />
+              <strong>${date.replace(/-/g, '/')}</strong> às <strong>${time}</strong>.<br />
+              Você receberá um e-mail de confirmação.
+            `;
+            confirmation.classList.add('show');
+            confirmation.focus();
+
+            form.reset();
+            setMinDate();
+          }, (error) => {
+            errorMessage.textContent = 'Erro ao enviar confirmação por e-mail. Tente novamente mais tarde.';
+            errorMessage.classList.add('show');
+            errorMessage.focus();
+            console.error('EmailJS error:', error);
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
+
