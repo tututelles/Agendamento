@@ -28,10 +28,8 @@ try:
                 print(f"{acao}: {ultimo_preco:.2f}")
                 
                 # Adicionar o quadrado do último preço à lista
-                x = ultimo_preco
-                y = np.power(x,2)
-
-                z = y.item()
+               
+                z =(ultimo_preco)
                 minha_lista.append(z)
     
         # Se quiser ver todo o dataframe com todos os dados
@@ -50,15 +48,17 @@ print("Valores quadrados das ações:", minha_lista)
 
 # Salvar os valores em um arquivo Excel
 import openpyxl
-
+from openpyxl.chart import Reference
 # Criar ou abrir o arquivo Excel
 arquivo = openpyxl.Workbook()
 sheet = arquivo.active
+
 sheet.title = "Valores Ações"
+
 
 # Adicionar os valores à planilha
 for i, valor in enumerate(minha_lista, start=1):
-    sheet[f'A{i}'] = valor
+    sheet[f'B{i}'] = valor
 
 # Salvar o arquivo
 arquivo.save("valores.xlsx")
