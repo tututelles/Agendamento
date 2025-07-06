@@ -26,6 +26,13 @@ try:
             if acao in dados:
                 ultimo_preco = dados[acao].iloc[-1]['Close']
                 print(f"{acao}: {ultimo_preco:.2f}")
+                
+                # Adicionar o quadrado do último preço à lista
+                x = ultimo_preco
+                y = np.power(x,2)
+
+                z = y.item()
+                minha_lista.append(z)
     
         # Se quiser ver todo o dataframe com todos os dados
         #print("\nTodos os dados baixados:")
@@ -38,50 +45,21 @@ except Exception as e:
     print("- Problema de conexão com a internet")
     print("- Limitação da API (muitas requisições)")
 
+# Exibir a lista com os valores quadrados
+print("Valores quadrados das ações:", minha_lista)
 
-
-
-import pandas as pd
-# df = pd.DataFrame(data)
-# arquivo_excel = "dados_pessoas.xlsx"
-# df.to_excel(arquivo_excel, index=False)
-#print(f"Dados salvos em '{arquivo_excel}'.")
-#print(data)
-
-import yfinance as yf
-
-def get_ultimo_valor_acao(ticker):
-  try:
-    acao = yf.Ticker(ticker)
-    historico = acao.history(period="1d")
-    ultimo_valor = historico.iloc[-1]['Close']
-    return ultimo_valor
-  except Exception as e:
-    print(f"Erro ao obter o valor da ação: {e}")
-    return None
-
-ticker_acao = "PETR4.SA"
-valor = get_ultimo_valor_acao(ticker_acao)
-
-print(f"{ticker_acao} : {valor}")
-
-import numpy as np
-
-x = valor
-y = np.power(x,2)
-
-z = y.item()
-
-
-
-minha_lista.append(z)
-minha_lista2= str(minha_lista)
-print(minha_lista)
-
-
+# Salvar os valores em um arquivo Excel
 import openpyxl
 
-arquivo = open("valores.xlxs", "a")
+# Criar ou abrir o arquivo Excel
+arquivo = openpyxl.Workbook()
+sheet = arquivo.active
+sheet.title = "Valores Ações"
 
+# Adicionar os valores à planilha
+for i, valor in enumerate(minha_lista, start=1):
+    sheet[f'A{i}'] = valor
 
-arquivo.writelines(minha_lista2)
+# Salvar o arquivo
+arquivo.save("valores.xlsx")
+print("Dados salvos em 'valores.xlsx'.")
