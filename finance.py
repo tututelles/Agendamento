@@ -35,31 +35,3 @@ except Exception as e:
     print("- Problema de conexão com a internet")
     print("- Limitação da API (muitas requisições)")
 
-        # Mostrar os dados mais recentes (último pregão)
-        print("\nÚltimas cotações:")
-        cotacoes_atualizadas = []
-        for acao in ativos:
-            if acao in dados:
-                ultimo_preco = dados[acao].iloc[-1]['Close']
-                print(f"{acao}: {ultimo_preco:.2f}")
-                cotacoes_atualizadas.append({"Ticker": acao, "Último Preço": ultimo_preco})
-        # Criar um DataFrame para armazenar as cotações
-        df_novas_cotacoes = pd.DataFrame(cotacoes_atualizadas)
-        # Verificar se o arquivo Excel já existe
-        if os.path.exists(arquivo_excel):
-            # Ler o arquivo existente
-            df_existente = pd.read_excel(arquivo_excel)
-            # Atualizar o DataFrame existente com as novas cotações
-            df_atualizado = pd.concat([df_existente, df_novas_cotacoes]).drop_duplicates(subset=["Ticker"], keep='last')
-        else:
-            # Se o arquivo não existir, usar as cotações atuais
-            df_atualizado = df_novas_cotacoes
-        # Salvar o DataFrame atualizado no Excel
-        df_atualizado.to_excel(arquivo_excel, index=False)
-        print(f"\nCotações salvas em '{arquivo_excel}'.")
-except Exception as e:
-    print(f"Erro ao buscar dados: {str(e)}")
-    print("Possíveis causas:")
-    print("- Algum ticker pode estar incorreto")
-    print("- Problema de conexão com a internet")
-    print("- Limitação da API (muitas requisições)")
