@@ -1,6 +1,9 @@
 import yfinance as yf
 import pandas as pd
 import datetime
+import numpy as np
+np.float_ = np.float64
+
 minha_lista = []
 # Definir os ativos (incluindo AMX, AAPL e PETR4)
 ativos = ["AMX", "AAPL", "PETR4.SA", "ITUB3.SA", "VALE3.SA", "PETR3.SA", "^BVSP"]
@@ -62,29 +65,23 @@ valor = get_ultimo_valor_acao(ticker_acao)
 
 print(f"{ticker_acao} : {valor}")
 
-minha_lista.append(valor)
+import numpy as np
 
+x = valor
+y = np.power(x,2)
+
+z = y.item()
+
+
+
+minha_lista.append(z)
+minha_lista2= str(minha_lista)
 print(minha_lista)
 
 
 import openpyxl
 
-def inserir_lista_no_excel(lista, caminho_arquivo, nome_aba="Plan1"):
-
-    if nome_aba in workbook.sheetnames:
-        aba = workbook[nome_aba]
-    else:
-        aba = workbook.create_sheet(title=nome_aba)
-
-    # Itera sobre a lista e escreve os elementos nas células
-    for i, elemento in enumerate(lista):
-        aba.cell(row=i+1, column=1, value=elemento)  # Insere na coluna 1
-
-    # Salva as alterações no arquivo
-    workbook.save(caminho_arquivo)
-    print(f"Lista inserida com sucesso no arquivo: {caminho_arquivo}")
+arquivo = open("valores.xlxs", "a")
 
 
-# Exemplo de uso:
-caminho = "valores.xlsx"
-inserir_lista_no_excel(minha_lista, caminho)
+arquivo.writelines(minha_lista2)
