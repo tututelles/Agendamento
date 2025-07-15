@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz - Descubra seu perfume</title>
-
   <link rel="stylesheet" href="quiz.css">
 </head>
 <body>
@@ -46,29 +45,49 @@
   </section>
 
   <script>
-    document.getElementById('quizForm').addEventListener('submit', function(e) {
+    const quizForm = document.getElementById('quizForm');
+    const resultadoDiv = document.getElementById('resultado');
+
+    quizForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const clima = document.querySelector('input[name="clima"]:checked')?.value;
-      const ocasiao = document.querySelector('input[name="ocasiao"]:checked')?.value;
-      const notas = document.querySelector('input[name="notas"]:checked')?.value;
-      const genero = document.querySelector('input[name="genero"]:checked')?.value;
 
-      let recomendacao = "";
+      resultadoDiv.innerHTML = '<p>Consultando a IA para sua recomendação...</p>';
 
-      if (clima === "fresco" && notas === "cítricas") {
-        recomendacao = "Perfumes leves como 'Light Blue' ou 'Azzaro Chrome'.";
-      } else if (notas === "doces" && ocasiao === "noite") {
-        recomendacao = "Perfumes envolventes como 'La Vie Est Belle' ou 'Scandal'.";
-      } else if (notas === "amadeiradas") {
-        recomendacao = "Perfumes marcantes como 'Terre d’Hermès' ou 'Bleu de Chanel'.";
-      } else {
-        recomendacao = "Um perfume versátil como 'CK One' pode ser ideal para você.";
+      const form = new FormData(quizForm);
+      const clima = form.get('clima');
+      const ocasiao = form.get('ocasiao');
+      const notas = form.get('notas');
+      const genero = form.get('genero');
+
+      const prompt = `Você é um especialista em perfumes. Com base nas seguintes preferências:
+
+Clima: ${clima}
+Ocasião: ${ocasiao}
+Notas: ${notas}
+Gênero: ${genero}
+
+Recomende um perfume ideal, com uma breve explicação do motivo.`;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/recomendar-perfume', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt })
+        });
+
+        if (!response.ok) throw new Error('Erro na resposta da IA');
+
+        const data = await response.json();
+
+        resultadoDiv.innerHTML = `
+          <h3>Recomendação da IA:</h3>
+          <p>${data.text}</p>
+        `;
+      } catch (err) {
+        resultadoDiv.innerHTML = `<p>Erro ao consultar a IA: ${err.message}</p>`;
       }
-
-      document.getElementById('resultado').innerHTML = `
-        <h3>Recomendação:</h3>
-        <p>${recomendacao}</p>
-      `;
     });
   </script>
 </body>
