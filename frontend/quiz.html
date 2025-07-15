@@ -56,7 +56,7 @@
       const prompt = `Você é um especialista em perfumes. Baseado nas preferências abaixo, recomende o perfume ideal para o usuário:\nClima: ${clima}\nOcasião: ${ocasiao}\nNotas preferidas: ${notas}\nGênero: ${genero}\nExplique brevemente a recomendação.`;
 
       try {
-        const response = await fetch('http://localhost:3000/api/recomendar-perfume', {
+        const response = await fetch('http://localhost:3001/api/recomendar-perfume', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ prompt }),
