@@ -1,93 +1,225 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz - Descubra seu perfume</title>
-  <link rel="stylesheet" href="quiz.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz de Perfumes Preto e Branco</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 480px;
+      margin: 3rem auto;
+      padding: 2rem 1.5rem;
+      background-color: #fff;
+      color: #111;
+      user-select: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: #111;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    form {
+      background: #f5f5f5;
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+
+    form:hover {
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    .quiz-question {
+      margin-bottom: 1.8rem;
+    }
+    a{
+      font-style: none;
+      text-decoration: none;
+    }
+    label {
+      display: block;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #222;
+      transition: color 0.3s ease;
+    }
+
+    label:hover {
+      color: #555;
+    }
+
+    input[type="radio"] {
+      margin-right: 0.6rem;
+      cursor: pointer;
+      accent-color: #222;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      transition: accent-color 0.3s ease;
+    }
+
+    button {
+      display: block;
+      text-decoration: none;
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.75rem 0;
+      background-color: #222;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background-color: #444;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    #resultado {
+      margin-top: 2.5rem;
+      background-color: #eee;
+      padding: 1.5rem 1rem;
+      border-radius: 14px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #111;
+      user-select: text;
+      min-height: 120px;
+    }
+  </style>
 </head>
 <body>
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Quiz Olfativo</h2>
-      <form id="quizForm" class="quiz-form">
-        <div class="quiz-question">
-          <label>1. Qual clima você prefere?</label><br>
-          <input type="radio" name="clima" value="fresco"> Fresco<br>
-          <input type="radio" name="clima" value="quente"> Quente<br>
-        </div>
+  <h1>Quiz: Qual perfume combina com você?</h1>
 
-        <div class="quiz-question">
-          <label>2. Qual ocasião você quer um perfume?</label><br>
-          <input type="radio" name="ocasiao" value="dia"> Uso diário<br>
-          <input type="radio" name="ocasiao" value="noite"> Encontros e festas<br>
-        </div>
-
-        <div class="quiz-question">
-          <label>3. Quais notas você prefere?</label><br>
-          <input type="radio" name="notas" value="cítricas"> Cítricas<br>
-          <input type="radio" name="notas" value="doces"> Doces<br>
-          <input type="radio" name="notas" value="amadeiradas"> Amadeiradas<br>
-        </div>
-
-        <div class="quiz-question">
-          <label>4. Qual gênero você prefere?</label><br>
-          <input type="radio" name="genero" value="feminino"> Feminino<br>
-          <input type="radio" name="genero" value="masculino"> Masculino<br>
-          <input type="radio" name="genero" value="unissex"> Unissex<br>
-        </div>
-
-        <button type="submit" class="btn-primary">Ver Resultado</button>
-      </form>
-
-      <div id="resultado" class="quiz-result"></div>
+  <form id="quizForm" autocomplete="off">
+    <div class="quiz-question">
+      <label>1. Qual tipo de perfume você prefere?</label>
+      <label><input type="radio" name="tipo" value="floral" required /> Floral</label>
+      <label><input type="radio" name="tipo" value="amadeirado" /> Amadeirado</label>
+      <label><input type="radio" name="tipo" value="cítrico" /> Cítrico</label>
+      <label><input type="radio" name="tipo" value="doce" /> Doce</label>
     </div>
-  </section>
 
+    <div class="quiz-question">
+      <label>2. Qual ocasião você mais usa perfume?</label>
+      <label><input type="radio" name="ocasiao" value="dia" required /> Dia a dia / trabalho</label>
+      <label><input type="radio" name="ocasiao" value="noite" /> Noite / eventos</label>
+    </div>
+
+    <div class="quiz-question">
+      <label>3. Você prefere perfume masculino, feminino ou unissex?</label>
+      <label><input type="radio" name="genero" value="masculino" required /> Masculino</label>
+      <label><input type="radio" name="genero" value="feminino" /> Feminino</label>
+      <label><input type="radio" name="genero" value="unissex" /> Unissex</label>
+    </div>
+
+    <button type="submit">Ver resultado</button>
+  </form>
+
+  <div id="resultado"></div>
+  <a href="file.html"><button>Voltar à pagina inicial</button></a>
   <script>
-    const quizForm = document.getElementById('quizForm');
-    const resultadoDiv = document.getElementById('resultado');
+    const perfumes = [
+      // Feminino - Floral
+      { nome: "Granado Flor de Algodão", tipo: "floral", ocasiao: "dia", genero: "feminino", descricao: "Delicado e fresco, ideal para o dia a dia." },
+      { nome: "O Boticário Lily", tipo: "floral", ocasiao: "dia", genero: "feminino", descricao: "Doce floral para o dia a dia." },
+      { nome: "Natura Essencial Flor", tipo: "floral", ocasiao: "noite", genero: "feminino", descricao: "Floral intenso e sofisticado para a noite." },
+      { nome: "Granado Citrus Flower", tipo: "floral", ocasiao: "dia", genero: "feminino", descricao: "Refrescante com toque floral e cítrico." },
+      { nome: "Natura Luna", tipo: "amadeirado", ocasiao: "noite", genero: "feminino", descricao: "Amadeirado suave e sofisticado para a noite." },
 
-    quizForm.addEventListener('submit', async function(e) {
+      // Feminino - Doce
+      { nome: "Natura Essencial Exclusivo", tipo: "doce", ocasiao: "noite", genero: "feminino", descricao: "Doce e sofisticado para momentos elegantes." },
+      { nome: "O Boticário Malbec Rosé", tipo: "doce", ocasiao: "dia", genero: "feminino", descricao: "Doce leve para o dia." },
+      { nome: "Granado Baunilha & Mel", tipo: "doce", ocasiao: "noite", genero: "feminino", descricao: "Doce quente e acolhedor." },
+      { nome: "Natura Essencial Pink", tipo: "doce", ocasiao: "dia", genero: "feminino", descricao: "Doce e alegre para o dia." },
+
+      // Masculino - Amadeirado
+      { nome: "Polo Ralph Lauren Blue", tipo: "amadeirado", ocasiao: "dia", genero: "masculino", descricao: "Clássico amadeirado, perfeito para uso diário." },
+      { nome: "O Boticário Malbec Noir", tipo: "amadeirado", ocasiao: "noite", genero: "masculino", descricao: "Marcante e intenso para ocasiões especiais." },
+      { nome: "Lattafa Opulent Musk", tipo: "amadeirado", ocasiao: "noite", genero: "unissex", descricao: "Perfumado e sofisticado para a noite." },
+      { nome: "Natura Essencial Oud", tipo: "amadeirado", ocasiao: "noite", genero: "unissex", descricao: "Luxuoso e envolvente, com toque de madeira e especiarias." },
+      { nome: "Granado Carvalho & Musgo", tipo: "amadeirado", ocasiao: "dia", genero: "masculino", descricao: "Amadeirado fresco para o dia." },
+      { nome: "Polo Ralph Lauren Black", tipo: "amadeirado", ocasiao: "noite", genero: "masculino", descricao: "Intenso e sofisticado para a noite." },
+
+      // Masculino - Cítrico
+      { nome: "Natura Kaiak Aventura", tipo: "cítrico", ocasiao: "dia", genero: "masculino", descricao: "Aroma fresco e esportivo." },
+      { nome: "Polo Ralph Lauren Deep Blue", tipo: "cítrico", ocasiao: "dia", genero: "masculino", descricao: "Fresco e energizante, ideal para o verão." },
+      { nome: "O Boticário Quasar", tipo: "cítrico", ocasiao: "noite", genero: "masculino", descricao: "Cítrico moderno para a noite." },
+      { nome: "Granado Citrus", tipo: "cítrico", ocasiao: "dia", genero: "unissex", descricao: "Refrescante e vibrante para o dia a dia." },
+
+      // Masculino - Doce
+      { nome: "O Boticário Quasar Night", tipo: "doce", ocasiao: "noite", genero: "masculino", descricao: "Doce amadeirado para a noite." },
+      { nome: "Granado Tabaco & Baunilha", tipo: "doce", ocasiao: "noite", genero: "masculino", descricao: "Doce intenso e envolvente." },
+
+      // Unissex - Diversos
+      { nome: "Lattafa Raghba", tipo: "doce", ocasiao: "noite", genero: "unissex", descricao: "Exótico e marcante, unissex e envolvente." },
+      { nome: "CK One", tipo: "cítrico", ocasiao: "dia", genero: "unissex", descricao: "Clássico unissex que combina com várias ocasiões." },
+      { nome: "Jo Malone Wood Sage & Sea Salt", tipo: "amadeirado", ocasiao: "dia", genero: "unissex", descricao: "Fresco, amadeirado e leve para o dia." },
+      { nome: "Natura Essencial Vetiver", tipo: "amadeirado", ocasiao: "dia", genero: "unissex", descricao: "Elegante, com notas de vetiver." },
+      { nome: "Granado Flor de Laranjeira", tipo: "floral", ocasiao: "dia", genero: "unissex", descricao: "Floral leve e cítrico." },
+      { nome: "Polo Ralph Lauren Polo Blue", tipo: "cítrico", ocasiao: "dia", genero: "unissex", descricao: "Fresco, clássico e versátil." },
+      { nome: "O Boticário Malbec Aer", tipo: "amadeirado", ocasiao: "noite", genero: "unissex", descricao: "Amadeirado com frescor para a noite." },
+    ];
+
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      resultadoDiv.innerHTML = '<p>Consultando a IA para sua recomendação...</p>';
+      const formData = new FormData(e.target);
+      const tipo = formData.get("tipo");
+      const ocasiao = formData.get("ocasiao");
+      const genero = formData.get("genero");
 
-      const form = new FormData(quizForm);
-      const clima = form.get('clima');
-      const ocasiao = form.get('ocasiao');
-      const notas = form.get('notas');
-      const genero = form.get('genero');
+      // Tenta encontrar a combinação exata
+      let resultado = perfumes.find(
+        (p) => p.tipo === tipo && p.ocasiao === ocasiao && p.genero === genero
+      );
 
-      const prompt = `Você é um especialista em perfumes. Com base nas seguintes preferências:
-
-Clima: ${clima}
-Ocasião: ${ocasiao}
-Notas: ${notas}
-Gênero: ${genero}
-
-Recomende um perfume ideal, com uma breve explicação do motivo.`;
-
-      try {
-        const response = await fetch('http://localhost:3000/api/recomendar-perfume', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ prompt })
-        });
-
-        if (!response.ok) throw new Error('Erro na resposta da IA');
-
-        const data = await response.json();
-
-        resultadoDiv.innerHTML = `
-          <h3>Recomendação da IA:</h3>
-          <p>${data.text}</p>
-        `;
-      } catch (err) {
-        resultadoDiv.innerHTML = `<p>Erro ao consultar a IA: ${err.message}</p>`;
+      // Se não encontrar, tenta com unissex
+      if (!resultado) {
+        resultado = perfumes.find(
+          (p) => p.tipo === tipo && p.ocasiao === ocasiao && p.genero === "unissex"
+        );
       }
+
+      // Se ainda não encontrar, tenta só tipo + ocasião
+      if (!resultado) {
+        resultado = perfumes.find((p) => p.tipo === tipo && p.ocasiao === ocasiao);
+      }
+
+      // Default se nada encontrado
+      if (!resultado) {
+        resultado = {
+          nome: "Perfume versátil CK One",
+          descricao: "Um clássico unissex que combina com várias ocasiões.",
+        };
+      }
+
+      const resultadoDiv = document.getElementById("resultado");
+      resultadoDiv.innerHTML = `
+        <h2>Recomendação:</h2>
+        <p><strong>${resultado.nome}</strong></p>
+        <p>${resultado.descricao}</p>
+      `;
     });
   </script>
 </body>
