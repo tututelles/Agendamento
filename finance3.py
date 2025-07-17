@@ -8,7 +8,105 @@ import os
 np.float_ = np.float64
 nomes_ativos= []
 minha_lista = []
-ativos = ["AMX", "AAPL", "PETR4.SA", "ITUB3.SA", "VALE3.SA", "PETR3.SA", "^BVSP"]
+ativos = ["ABEV3", "ALPA4","ALUP11",
+"ANIM3",
+"ASAI3",
+"AURE3",
+"B3SA3",
+"BBAS3",
+"BBDC4",
+"BBSE3",
+"BEEF3",
+"BHIA3",
+"BLAU3",
+"BRAP4",
+"BRAV3",
+"BRFS3",
+"BRSR6",
+"CASH3",
+"CEAB3",
+"CMIG4",
+"CMIN3",
+"COGN3",
+"CSED3",
+"CSNA3",
+"CURY3",
+"CVCB3",
+"CXSE3",
+"CYRE3",
+"DIRR3",
+"DXCO3",
+"EGIE3",
+"ELET3",
+"EMBR3",
+"EQTL3",
+"EZTC3",
+"FLRY3",
+"GFSA3",
+"GGBR4",
+"GMAT3",
+"GOAU4",
+"HAPV3",
+"HBSA3",
+"HYPE3",
+"ITSA4",
+"ITUB4",
+"JALL3",
+"JBSS3",
+"KEPL3",
+"KLBN11",
+"LEVE3",
+"LREN3",
+"LWSA3",
+"MDIA3",
+"MGLU3",
+"MLAS3",
+"MOVI3",
+"MRFG3",
+"MRVE3",
+"NATU3",
+"ONCO3",
+"PCAR3",
+"PETR4",
+"PETZ3",
+"PLPL3",
+"PNVL3",
+"POMO4",
+"POSI3",
+"PRIO3",
+"PSSA3",
+"QUAL3",
+"RADL3",
+"RAIL3",
+"RAIZ4",
+"RANI3",
+"RAPT4",
+"RECV3",
+"RENT3",
+"ROXO34",
+"SANB11",
+"SBFG3",
+"SBSP3",
+"SEER3",
+"SIMH3",
+"SLCE3",
+"SMTO3",
+"SUZB3",
+"TEND3",
+"TIMS3",
+"TOTS3",
+"TTEN3",
+"TUPY3",
+"UGPA3",
+"USIM5",
+"VALE3",
+"VAMO3",
+"VITT3",
+"VIVA3",
+"VULC3",
+"WEGE3",
+"YDUQ3",
+]
 arquivo_excel = "valores.xlsx"
 
 # Obter dados das ações
@@ -42,19 +140,16 @@ try:
         sheet = arquivo.active
         
         # Limpa apenas a coluna B mantendo outras colunas
-        for row in sheet.iter_rows():
-            if row[1].value:  # A coluna B é o índice 1 (0-based)
-                row[1].value = None
+        
     else:
         arquivo = openpyxl.Workbook()
         sheet = arquivo.active
         sheet.title = "Valores Ações"
     
     # Adicionar valores na coluna B
-    for i, nome in enumerate(nomes_ativos, start=1):
-        sheet[f'C{i}'] = nome
+    
     for i, valor in enumerate(minha_lista, start=1):
-        sheet[f'B{i}'] = valor
+        sheet[f'H{i}'] = valor
     
     # Salvar mantendo formatação existente
     arquivo.save(arquivo_excel)
