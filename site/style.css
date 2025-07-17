@@ -2,7 +2,6 @@
 * {
   margin: 0;
   padding: 0;
-  height: ;
   box-sizing: border-box;
 }
 
@@ -209,7 +208,7 @@ img{
   border-radius: 60px;
 }
 #qrcode{
-
+  border-radius: 0%;
 }
 footer{
   bottom: 0;
